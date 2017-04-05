@@ -7,6 +7,8 @@ import { AppState } from '../app.service';
 import { Title } from './title';
 import { XLargeDirective } from './x-large';
 
+declare var $:any;
+
 @Component({
   // The selector is what angular internally uses
   // for `document.querySelectorAll(selector)` in our index.html
@@ -17,7 +19,7 @@ import { XLargeDirective } from './x-large';
     Title
   ],
   // Our list of styles in our component. We may add more to compose many styles together
-  styleUrls: [ './home.component.css' ],
+  styleUrls: [ '../../assets/css/jquery.bxslider.css' ],
   // Every Angular template is first compiled by the browser before Angular runs it's compiler
   templateUrl: './home.component.html'
 })
@@ -31,8 +33,33 @@ export class HomeComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    console.log('hello `Home` component');
     // this.title.getData().subscribe(data => this.data = data);
+
+    $( document ).ready(function() {
+       $('#overlay').fadeIn('fast',function(){
+               $('#box').animate({'top':'160px'},800);
+       });
+       $('.box select').change(function(){
+           $('#box').animate({'top':'-100%'},800,function(){
+               $('#overlay').fadeOut('fast');
+           });
+       });
+       $('.bxslider').bxSlider({
+           mode: 'fade',
+           controls:true,
+           captions: false,
+           pager: false
+       });
+       $('.slider-col').bxSlider({
+           slideWidth: 300,
+           minSlides: 1,
+           maxSlides: 7,
+           moveSlides: 1,
+           controls:true,
+           captions: false,
+           pager: false
+       });
+   });
   }
 
   public submitState(value: string) {
